@@ -21,7 +21,7 @@ async function requireAdmin(supabase) {
 const RANGE_DAYS = { daily: 14, weekly: 12 * 7, monthly: 365, yearly: 365 * 3 };
 
 export async function GET(request) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const check = await requireAdmin(supabase);
   if (check.error) return NextResponse.json({ error: check.error }, { status: check.status });
 

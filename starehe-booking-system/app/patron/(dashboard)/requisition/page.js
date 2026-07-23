@@ -224,13 +224,14 @@ function RequisitionContent() {
         <Button variant="secondary" className="sm:w-auto" loading={saving} onClick={handleSaveDraft}>
           Save
         </Button>
-        <Button className="sm:w-auto" loading={saving} onClick={handleContinue}>
+        <Button className="sm:w-auto" loading={saving} onClick={handleContinue} >
           Continue
         </Button>
       </div>
     </div>
   );
 }
+
 
 export default function RequisitionPage() {
   return (

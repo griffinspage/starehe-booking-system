@@ -20,7 +20,7 @@ async function requireAdmin(supabase) {
 }
 
 export async function GET(request) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const check = await requireAdmin(supabase);
   if (check.error) return NextResponse.json({ error: check.error }, { status: check.status });
 

@@ -108,13 +108,24 @@ export default function ApprovedFunctionDocument({
             <View key={s.id || i} style={styles.tableRow}>
               <Text style={styles.tableCell}>{i + 1}</Text>
               <Text style={styles.tableCell}>{s.admission_number}</Text>
-              <Text style={styles.tableCell}>{s.student_name}</Text>
+              <Text
+                style={[
+                  styles.tableCell,
+                  s.flag_type === 'academic' ? { textDecoration: 'line-through' } : {},
+                  s.flag_type === 'discipline' ? { textDecoration: 'line-through', fontWeight: 700 } : {},
+                ]}
+              >
+                {s.student_name}{s.flag_type ? (s.flag_type === 'academic' ? ' *' : ' **') : ''}
+              </Text>
               <Text style={styles.tableCell}>{s.class}</Text>
               <Text style={styles.tableCell}>{s.stream}</Text>
               <Text style={styles.tableCell}>{s.attendance_status}</Text>
             </View>
           ))}
         </View>
+        <Text style={{ fontSize: 7, color: '#8b93a0', marginTop: 4 }}>
+          * Flagged — low academic performance &nbsp;&nbsp; ** Flagged — indiscipline. Flagged students are not permitted to attend.
+        </Text>
 
         <SignatureBlocks approvals={approvals} signatureUrls={signatureUrls} />
         <Text style={styles.pageNumber} render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`} fixed />

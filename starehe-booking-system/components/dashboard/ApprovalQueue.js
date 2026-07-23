@@ -2,11 +2,13 @@
 
 import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
-import { LuCheck, LuX, LuClipboardCheck } from 'react-icons/lu';
+import { LuCheck, LuX, LuClipboardCheck, LuFileText } from 'react-icons/lu';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import Textarea from '@/components/ui/Textarea';
 import SignaturePad from '@/components/signature/SignaturePad';
+import Link from 'next/link';
+
 
 const ROLE_LABELS = {
   sm1: 'Senior Master 1',
@@ -79,6 +81,14 @@ function ApprovalRow({ approval, onDecided }) {
         <p><span className="font-medium text-ink">Purpose:</span> {booking?.purpose || '—'}</p>
         <p><span className="font-medium text-ink">Expected students:</span> {booking?.expected_students ?? '—'}</p>
       </div>
+
+      <Link
+        href={`/approvals/review/${booking.id}`}
+        target="_blank"
+        className="inline-flex items-center gap-1.5 text-sm font-medium text-navy-600 hover:underline"
+      >
+        <LuFileText className="h-4 w-4" /> View Master List & Requisition
+      </Link>
 
       <Textarea
         label="Comment (required to reject)"
