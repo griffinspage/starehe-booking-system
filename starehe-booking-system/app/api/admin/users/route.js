@@ -53,14 +53,39 @@ export async function POST(request) {
 
   const admin = createAdminClient();
 
+  console.log("Testing Admin API...");
+
+const { data: usersTest, error: usersTestError } =
+  await admin.auth.admin.listUsers();
+
+console.log("LIST USERS RESULT:", usersTest);
+console.log("LIST USERS ERROR:", usersTestError);
+
   // 1. Create the actual auth account (pre-confirmed, so they can log in right away
   //    without waiting on a confirmation email — appropriate for staff accounts an
   //    admin is setting up on someone else's behalf).
-  const { data: authData, error: authError } = await admin.auth.admin.createUser({
-    email,
-    password,
-    email_confirm: true,
-  });
+  const { data: authData, error: authError } =
+  await admin.auth.admin.createUser({
+  email,
+  password,
+  email_confirm: true,
+  user_metadata: {
+    full_name: fullName,
+    role: role,
+  },
+});
+
+console.log("========== CREATE USER ==========");
+console.dir(authData, { depth: null });
+console.dir(authError, { depth: null });
+
+if (authError) {
+  console.log("name:", authError.name);
+  console.log("message:", authError.message);
+  console.log("status:", authError.status);
+  console.log("code:", authError.code);
+  console.log("stack:", authError.stack);
+}
 
   if (authError) {
     return NextResponse.json({ error: authError.message }, { status: 400 });
@@ -70,21 +95,25 @@ export async function POST(request) {
 
   // 2. Create the profile row with the role already set
   const { data: profile, error: profileError } = await admin
-    .from('users')
-    .insert({
-      id: newUserId,
-      email,
-      full_name: fullName || email,
-      role,
-    })
-    .select()
-    .single();
+  .from('users')
+  .update({
+    full_name: fullName || email,
+    role,
+  })
+  .eq('id', newUserId)
+  .select()
+  .single();
+if (profileError) {
+  console.log(profileError);
 
-  if (profileError) {
-    // Roll back the auth user so we don't leave an orphaned account with no profile
-    await admin.auth.admin.deleteUser(newUserId);
-    return NextResponse.json({ error: profileError.message }, { status: 500 });
-  }
+  // Roll back the auth user so we don't leave an orphaned account
+  await admin.auth.admin.deleteUser(newUserId);
+
+  return NextResponse.json(
+    { error: profileError.message },
+    { status: 500 }
+  );
+}
 
   return NextResponse.json({ user: profile }, { status: 201 });
 }

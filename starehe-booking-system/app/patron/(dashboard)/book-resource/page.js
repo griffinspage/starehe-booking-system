@@ -72,7 +72,7 @@ export default function BookResourcePage() {
       }
 
       toast.success('Function booked! Continue to the Master List.');
-      router.push(`/patron/master-list?bookingId=${data.booking.id}`);
+      router.replace(`/patron/master-list?bookingId=${data.booking.id}`);
     } catch (err) {
       console.error(err);
       toast.error('Network error — please try again.');

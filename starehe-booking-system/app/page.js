@@ -30,7 +30,7 @@ export default function LandingPage() {
 
           <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
             <button
-              onClick={() => router.push('/patron/login')}
+             onClick={() => router.push('/patron/login')}
               className="btn-primary flex-col !items-center gap-1.5 py-5"
             >
               <LuUsers className="h-5 w-5" />

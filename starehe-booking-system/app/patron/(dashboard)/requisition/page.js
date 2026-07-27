@@ -135,7 +135,7 @@ function RequisitionContent() {
           <span className="font-medium text-ink">Book Resources</span>.
         </p>
         <Button className="mt-4" onClick={() => router.push('/patron/book-resource')}>
-          Go to Book Resources
+        Go to Book Resources
         </Button>
       </Card>
     );

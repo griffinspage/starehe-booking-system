@@ -32,6 +32,18 @@ export async function POST(request) {
       return NextResponse.json({ error: message }, { status: 422 });
     }
 
+    // Get the logged-in patron's club name
+const { data: profile, error: profileError } = await supabase
+  .from('users')
+  .select('club_name')
+  .eq('id', user.id)
+  .single();
+
+console.log("Logged in user:", user.id);
+console.log("Profile:", profile);
+
+if (profileError) throw profileError;
+
     const { data: booking, error } = await supabase
       .from('bookings')
       .insert({
@@ -50,10 +62,26 @@ export async function POST(request) {
       .select()
       .single();
 
-    if (error) throw error;
+   if (error) throw error;
 
-    // Seed the five-stage approval chain for this booking
-    const chain = [
+// Automatically create the Master List
+const { error: masterListError } = await supabase
+  .from('master_lists')
+  .insert({
+    booking_id: booking.id,
+    club_name: profile.club_name,
+    function_name: functionName,
+    venue,
+    function_date: functionDate,
+    purpose,
+    expected_students: expectedStudents,
+    status: 'draft',
+  });
+
+if (masterListError) throw masterListError;
+
+// Seed the five-stage approval chain
+const chain = [
       { role: 'sm1', order: 1 },
       { role: 'sm2', order: 2 },
       { role: 'sm3', order: 3 },

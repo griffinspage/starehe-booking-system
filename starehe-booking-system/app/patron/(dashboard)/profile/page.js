@@ -97,10 +97,17 @@ export default function ProfilePage() {
       const ext = file.name.split('.').pop();
       const path = `${userId}/avatar.${ext}`;
 
-      const { error: uploadError } = await supabase.storage
-        .from('avatars')
-        .upload(path, file, { upsert: true, contentType: file.type });
-      if (uploadError) throw uploadError;
+      const { data, error: uploadError } = await supabase.storage
+  .from('avatars')
+  .upload(path, file, {
+    upsert: true,
+    contentType: file.type,
+  });
+
+console.log(data);
+console.log(uploadError);
+
+if (uploadError) throw uploadError;
 
       const { data: publicUrlData } = supabase.storage.from('avatars').getPublicUrl(path);
       const url = `${publicUrlData.publicUrl}?t=${Date.now()}`; // cache-bust so the new image shows immediately

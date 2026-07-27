@@ -14,13 +14,22 @@ export async function GET(request) {
     return NextResponse.json({ error: 'bookingId is required' }, { status: 400 });
   }
 
-  const { data: booking } = await supabase.from('bookings').select('*').eq('id', bookingId).single();
+  const [bookingResult, masterResult] = await Promise.all([
+  supabase
+    .from('bookings')
+    .select('*')
+    .eq('id', bookingId)
+    .single(),
 
-  let { data: masterList } = await supabase
+  supabase
     .from('master_lists')
     .select('*')
     .eq('booking_id', bookingId)
-    .maybeSingle();
+    .maybeSingle(),
+]);
+
+const booking = bookingResult.data;
+const masterList = masterResult.data;
 
   let students = [];
   if (masterList) {

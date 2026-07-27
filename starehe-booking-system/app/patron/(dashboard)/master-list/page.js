@@ -137,7 +137,7 @@ function MasterListContent() {
       toast.error('Fill in Function Name, Club Name, and Date of Function before continuing.');
       return;
     }
-    const ok = await saveAll({ submit: true });
+  const ok = await saveAll({ submit: true });
     if (ok) router.push(`/patron/requisition?bookingId=${bookingId}`);
   }
 

@@ -12,7 +12,7 @@ import { createClient } from '@/lib/supabase/server';
 const APPROVER_ROLES = ['sm1', 'sm2', 'sm3', 'sm4', 'welfare_head', 'admin'];
 
 export async function GET(request) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
