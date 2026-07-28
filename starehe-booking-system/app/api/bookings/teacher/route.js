@@ -99,6 +99,18 @@ export async function POST(request) {
     return NextResponse.json({ booking, resource }, { status: 201 });
   } catch (error) {
     console.error('Teacher booking error:', error);
+    try {
+      const fs = require('fs');
+      const path = require('path');
+      const logPath = path.join(process.cwd(), 'scratch', 'booking_error.log');
+      const logDir = path.dirname(logPath);
+      if (!fs.existsSync(logDir)) {
+        fs.mkdirSync(logDir, { recursive: true });
+      }
+      fs.appendFileSync(logPath, `[${new Date().toISOString()}] Teacher Error:\nMessage: ${error.message}\nStack: ${error.stack}\nDetails: ${JSON.stringify(error)}\n\n`);
+    } catch (logErr) {
+      console.error('Failed to write log file:', logErr);
+    }
     return NextResponse.json({ error: 'Something went wrong creating the booking.' }, { status: 500 });
   }
 }
