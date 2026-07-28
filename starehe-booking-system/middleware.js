@@ -63,22 +63,6 @@ export async function middleware(request) {
     pathname.startsWith('/patron/reset-password');
 
   if (isPublic) {
-    // If already logged in, bounce away from login/signup to their proper dashboard
-    if (
-      user &&
-      (pathname.startsWith('/patron/login') || pathname.startsWith('/patron/signup'))
-    ) {
-      const { data: profile } = await supabase
-        .from('users')
-        .select('role')
-        .eq('id', user.id)
-        .single();
-
-      return NextResponse.redirect(
-        new URL(getDashboard(profile?.role), request.url)
-      );
-    }
-
     return response;
   }
 
