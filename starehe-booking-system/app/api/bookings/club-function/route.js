@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 // app/api/bookings/club-function/route.js
 // POST — creates a club function booking for the logged-in Club Patron.
 // Enforces the three-day rule server-side too, since client-side checks can be bypassed.

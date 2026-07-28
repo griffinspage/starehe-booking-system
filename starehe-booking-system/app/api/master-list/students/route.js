@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 // app/api/master-list/students/route.js
 // POST — bulk replace of all student rows for a master list (simplest correct model for a
 // spreadsheet-style editor: the client sends the full current grid, we replace-all in one go).

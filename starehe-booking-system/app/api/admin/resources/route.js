@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 // app/api/admin/resources/route.js
 // GET  — list every resource (admin only)
 // POST — create a new resource (projector / bus / computer lab)

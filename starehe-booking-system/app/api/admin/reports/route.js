@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 // app/api/admin/reports/route.js
 // GET ?range=daily|weekly|monthly|yearly — aggregated data for the reports
 // charts: booking status breakdown, bookings over time, resource type usage.

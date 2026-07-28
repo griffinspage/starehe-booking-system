@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 // app/api/admin/users/[id]/route.js
 // PATCH  — change a user's role (this is the actual "assign SM1/SM2/.../admin" action)
 // DELETE — remove a user entirely (auth account + profile row)

@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 // app/api/pdf/generate/route.js
 // POST { bookingId } — gathers the booking, master list, students, requisition,
 // approvals, and signature images; renders the PDF; uploads it to the

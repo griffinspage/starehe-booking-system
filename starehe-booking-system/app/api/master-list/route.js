@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 // app/api/master-list/route.js
 // POST — creates or updates the master list header for a booking (upsert on booking_id).
 // GET  — fetches the master list (+ its student rows) for a given bookingId.

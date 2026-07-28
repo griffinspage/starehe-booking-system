@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 // app/api/approvals/decide/route.js
 // POST — records an approve/reject decision, uploads the signature image to
 // Supabase Storage, and — if this was the final stage (Welfare Head) and it

@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 // app/api/approvals/queue/route.js
 // GET — returns bookings currently sitting at the logged-in approver's stage.
 // A booking is "actionable" by a given role only once every earlier stage has

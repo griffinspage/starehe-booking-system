@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 // app/api/admin/clubs/route.js
 // GET — list every club (from club_patrons, joined with their user profile)
 // along with a booking count, for the admin's club overview.

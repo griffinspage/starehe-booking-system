@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 // app/api/inventory/return/route.js
 // POST { bookingId, condition, comments } — records the return of a resource:
 //   1. Inserts a row into `returns`

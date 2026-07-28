@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 // app/api/approvals/review/route.js
 // GET ?bookingId=... — lets an approver (SM1-SM4, Welfare Head, or admin)
 // view the booking's master list, its student rows, and the requisition —

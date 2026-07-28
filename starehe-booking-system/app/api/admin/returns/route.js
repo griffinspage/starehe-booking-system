@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 // app/api/admin/returns/route.js
 // GET   — lists resources currently flagged 'maintenance' (i.e. returned in
 //         bad condition and awaiting admin clearance) plus their return record.

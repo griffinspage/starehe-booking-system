@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 // app/api/inventory/route.js
 // GET — returns every resource grouped by type, for the patron-facing
 // availability view (projectors / buses / computer labs and their status).

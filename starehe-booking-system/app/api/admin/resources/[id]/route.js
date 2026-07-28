@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 // app/api/admin/resources/[id]/route.js
 // PATCH  — update a resource (status, location, identifier, condition)
 // DELETE — remove a resource entirely

@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 // app/api/bookings/teacher/route.js
 // POST — creates a teacher record (no login) + a booking row, then marks the
 // chosen resource as "booked" so it disappears from availability counts.

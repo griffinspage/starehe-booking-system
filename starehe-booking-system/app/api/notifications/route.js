@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 // app/api/notifications/route.js
 // GET   — lists the logged-in user's notifications, newest first.
 // PATCH — marks one notification (or all) as read.

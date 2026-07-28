@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 // app/api/master-list/students/flag/route.js
 // PATCH { studentId, flagType, comment } — an approver marks (or clears) a
 // student as flagged for academic or disciplinary reasons. The student row

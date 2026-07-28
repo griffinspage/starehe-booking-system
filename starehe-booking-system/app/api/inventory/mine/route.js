@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 // app/api/inventory/mine/route.js
 // GET — bookings belonging to the logged-in patron where a resource is
 // currently held (approved + not yet returned). This is what the

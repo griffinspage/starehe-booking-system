@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 // app/api/email/send/route.js
 // POST { bookingId, pdfPath } — sends the "Function Approved" email to the
 // club patron's registered email with the generated PDF attached, and logs

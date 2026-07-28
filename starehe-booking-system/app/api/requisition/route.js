@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 // app/api/requisition/route.js
 // GET  — fetch the requisition for a booking (if it exists).
 // POST — upsert the requisition tied to a booking.

@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 // app/api/admin/users/route.js
 // GET  — list every user with their role (admin only)
 // POST — create a brand-new user (e.g. a Senior Master or the Welfare Head)

@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 // app/api/admin/logs/route.js
 // GET ?resourceType=&action= — the inventory audit trail: every issue,
 // return, and maintenance event, joined with the resource identifier and
