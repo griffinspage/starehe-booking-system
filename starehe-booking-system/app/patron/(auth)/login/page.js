@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, Suspense } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
@@ -26,11 +26,21 @@ function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [submitting, setSubmitting] = useState(false);
+  const [ready, setReady] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: zodResolver(patronLoginSchema) });
+
+  // Sign out any existing session when the login page loads
+  // so the user always sees the login form fresh
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.signOut().then(() => {
+      setReady(true);
+    });
+  }, []);
 
   async function onSubmit({ email, password }) {
     setSubmitting(true);
@@ -157,7 +167,7 @@ function LoginForm() {
               </Link>
             </div>
 
-            <Button type="submit" className="w-full font-semibold py-3" loading={submitting}>
+            <Button type="submit" className="w-full font-semibold py-3" loading={submitting} disabled={!ready || submitting}>
               Sign In to Portal
             </Button>
           </form>
