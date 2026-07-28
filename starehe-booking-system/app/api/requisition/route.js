@@ -84,20 +84,19 @@ export async function POST(request) {
 
     // Once submitted, this booking is ready for the approval chain — notify the first approver.
     if (submit) {
-      const { data: sm1Approval } = await supabase
-        .from('approvals')
-        .select('id, approver_id')
-        .eq('booking_id', bookingId)
-        .eq('approver_role', 'sm1')
-        .maybeSingle();
+      const { data: sm1Users } = await supabase
+        .from('users')
+        .select('id')
+        .eq('role', 'sm1');
 
-      if (sm1Approval?.approver_id) {
-        await supabase.from('notifications').insert({
-          user_id: sm1Approval.approver_id,
+      if (sm1Users && sm1Users.length > 0) {
+        const notifications = sm1Users.map((u) => ({
+          user_id: u.id,
           booking_id: bookingId,
           type: 'pending_approval',
           message: 'A new club function is awaiting your approval.',
-        });
+        }));
+        await supabase.from('notifications').insert(notifications);
       }
     }
 

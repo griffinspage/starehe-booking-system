@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import toast from 'react-hot-toast';
-import { LuArrowLeft, LuUsers } from 'react-icons/lu';
+import { LuArrowLeft, LuShieldCheck, LuUserPlus, LuCircleCheck } from 'react-icons/lu';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
 import { createClient } from '@/lib/supabase/client';
@@ -26,8 +26,7 @@ export default function SignupPage() {
     const supabase = createClient();
 
     try {
-      // Create the auth user (metadata will trigger DB profile creation)
-      const { data: authData, error: authError } = await supabase.auth.signUp({
+      const { error: authError } = await supabase.auth.signUp({
         email,
         password,
         options: { data: { club_name: clubName } },
@@ -49,39 +48,127 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-surface-muted px-4 py-10">
-      <div className="w-full max-w-md">
-        <Link href="/" className="mb-6 flex items-center gap-1.5 text-sm font-medium text-ink-muted hover:text-ink">
-          <LuArrowLeft className="h-4 w-4" /> Back
-        </Link>
+    <div className="flex min-h-screen bg-slate-900">
+      {/* Left Branding Panel */}
+      <div className="relative hidden w-1/2 flex-col justify-between overflow-hidden bg-gradient-to-br from-navy-950 via-navy-900 to-navy-800 p-12 text-white lg:flex">
+        <div className="absolute top-0 right-0 -mr-16 -mt-16 h-96 w-96 rounded-full bg-gold-500/10 blur-3xl" />
+        <div className="absolute bottom-0 left-0 -ml-16 -mb-16 h-96 w-96 rounded-full bg-navy-500/20 blur-3xl" />
 
-        <div className="mb-6 flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-navy-50 text-navy-600">
-            <LuUsers className="h-5 w-5" />
+        <div className="relative z-10">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 rounded-lg bg-white/5 px-3.5 py-2 text-xs font-semibold text-slate-300 backdrop-blur-md transition-colors hover:bg-white/10 hover:text-white"
+          >
+            <LuArrowLeft className="h-4 w-4" /> Back to Home
+          </Link>
+        </div>
+
+        <div className="relative z-10 space-y-6 max-w-lg">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-gold-400 to-gold-600 text-navy-950 shadow-xl ring-4 ring-gold-400/20">
+            <LuShieldCheck className="h-8 w-8" />
           </div>
           <div>
-            <h1 className="font-display text-xl font-semibold text-navy-700">Club Patron Sign Up</h1>
-            <p className="text-xs text-ink-faint">Create your account to book and manage functions.</p>
+            <span className="text-xs font-bold uppercase tracking-widest text-gold-400">
+              Club Patron Registration
+            </span>
+            <h1 className="font-display mt-2 text-3xl font-bold leading-tight text-white">
+              Empowering Student Leadership & Clubs
+            </h1>
+            <p className="mt-3 text-sm text-slate-300 leading-relaxed">
+              Register as a Club Patron to initiate student function approvals, reserve school buses, audio-visual gear, computer labs, and generate official requisition master lists.
+            </p>
+          </div>
+
+          <div className="space-y-3 pt-4 border-t border-white/10 text-xs text-slate-300">
+            <div className="flex items-center gap-2.5">
+              <LuCircleCheck className="h-4 w-4 text-gold-400 shrink-0" />
+              <span>Direct submission to Senior Masters approval queue</span>
+            </div>
+            <div className="flex items-center gap-2.5">
+              <LuCircleCheck className="h-4 w-4 text-gold-400 shrink-0" />
+              <span>Real-time tracking of resource availability</span>
+            </div>
+            <div className="flex items-center gap-2.5">
+              <LuCircleCheck className="h-4 w-4 text-gold-400 shrink-0" />
+              <span>Instant notification alerts at every approval stage</span>
+            </div>
           </div>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="card space-y-5 p-6">
-          <Input id="clubName" label="Club Name" placeholder="e.g. Drama Club" error={errors.clubName?.message} {...register('clubName')} />
-          <Input id="email" type="email" label="Email" placeholder="patron@starehe.ac.ke" error={errors.email?.message} {...register('email')} />
-          <Input id="password" type="password" label="Password" placeholder="At least 8 characters" error={errors.password?.message} {...register('password')} />
-          <Input id="confirmPassword" type="password" label="Confirm Password" error={errors.confirmPassword?.message} {...register('confirmPassword')} />
+        <div className="relative z-10 text-xs text-slate-400 font-mono">
+          Natulenge Juu · Starehe Boys&apos; Centre
+        </div>
+      </div>
 
-          <Button type="submit" className="w-full" loading={submitting}>
-            Create Account
-          </Button>
-        </form>
+      {/* Right Form Panel */}
+      <div className="flex w-full items-center justify-center bg-surface-muted px-6 py-12 lg:w-1/2">
+        <div className="w-full max-w-md space-y-6">
+          <div className="lg:hidden mb-4">
+            <Link href="/" className="inline-flex items-center gap-1.5 text-xs font-semibold text-ink-muted hover:text-navy-600">
+              <LuArrowLeft className="h-4 w-4" /> Back to Home
+            </Link>
+          </div>
 
-        <p className="mt-5 text-center text-sm text-ink-muted">
-          Already have an account?{' '}
-          <Link href="/patron/login" className="font-semibold text-navy-600 hover:underline">
-            Log in
-          </Link>
-        </p>
+          <div className="text-center lg:text-left">
+            <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-navy-50 text-navy-600 mb-3 border border-navy-100">
+              <LuUserPlus className="h-6 w-6" />
+            </div>
+            <h2 className="font-display text-2xl font-bold text-navy-900">Create Club Account</h2>
+            <p className="mt-1 text-xs text-ink-muted">
+              Fill in your details below to set up your Club Patron account.
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmit(onSubmit)} className="card space-y-4 p-7 shadow-card">
+            <Input
+              id="clubName"
+              label="Club / Society Name"
+              placeholder="e.g. Journalism & Media Club"
+              error={errors.clubName?.message}
+              {...register('clubName')}
+            />
+
+            <Input
+              id="email"
+              type="email"
+              label="Patron Email Address"
+              placeholder="patron@starehe.ac.ke"
+              error={errors.email?.message}
+              {...register('email')}
+            />
+
+            <Input
+              id="password"
+              type="password"
+              label="Password"
+              placeholder="At least 8 characters"
+              error={errors.password?.message}
+              {...register('password')}
+            />
+
+            <Input
+              id="confirmPassword"
+              type="password"
+              label="Confirm Password"
+              placeholder="Re-enter password"
+              error={errors.confirmPassword?.message}
+              {...register('confirmPassword')}
+            />
+
+            <Button type="submit" className="w-full font-semibold py-3 mt-2" loading={submitting}>
+              Create Patron Account
+            </Button>
+          </form>
+
+          <div className="rounded-xl border border-border bg-white p-4 text-center shadow-sm">
+            <p className="text-xs text-ink-muted">
+              Already have an account?{' '}
+              <Link href="/patron/login" className="font-bold text-navy-600 hover:underline">
+                Sign In
+              </Link>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

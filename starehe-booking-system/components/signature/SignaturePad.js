@@ -4,6 +4,8 @@ import { useRef, useImperativeHandle, forwardRef, useState } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
 import { LuEraser } from 'react-icons/lu';
 
+const CanvasComponent = SignatureCanvas.default || SignatureCanvas;
+
 /**
  * Digital signature pad. Use a ref to call:
  *   - isEmpty()   -> boolean
@@ -33,7 +35,7 @@ const SignaturePad = forwardRef(function SignaturePad(props, ref) {
   return (
     <div>
       <div className="overflow-hidden rounded-lg border border-border bg-white">
-        <SignatureCanvas
+        <CanvasComponent
           ref={padRef}
           penColor="#1c2530"
           canvasProps={{ className: 'h-40 w-full' }}

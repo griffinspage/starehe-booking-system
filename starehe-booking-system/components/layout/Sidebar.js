@@ -16,6 +16,7 @@ import {
   LuLogOut,
   LuMenu,
   LuX,
+  LuShieldCheck,
 } from 'react-icons/lu';
 import { createClient } from '@/lib/supabase/client';
 
@@ -44,35 +45,62 @@ export default function Sidebar() {
   return (
     <>
       {/* Mobile top bar */}
-      <div className="flex items-center justify-between border-b border-border bg-white px-4 py-3 lg:hidden">
-        <span className="font-display text-base font-semibold text-navy-700">SBMS</span>
-        <button onClick={() => setOpen(true)} aria-label="Open menu" className="rounded-lg p-2 hover:bg-surface-muted">
+      <div className="flex items-center justify-between border-b border-navy-800 bg-navy-900 px-4 py-3 text-white lg:hidden">
+        <div className="flex items-center gap-2">
+          <div className="flex h-7 w-7 items-center justify-center rounded bg-gold-500/20 text-gold-400">
+            <LuShieldCheck className="h-4 w-4" />
+          </div>
+          <span className="font-display text-sm font-semibold tracking-wide text-white">Starehe SBMS</span>
+        </div>
+        <button
+          onClick={() => setOpen(true)}
+          aria-label="Open menu"
+          className="rounded-lg p-2 text-slate-300 hover:bg-navy-800 hover:text-white"
+        >
           <LuMenu className="h-5 w-5" />
         </button>
       </div>
 
       {/* Overlay */}
       {open && (
-        <div className="fixed inset-0 z-40 bg-navy-900/40 lg:hidden" onClick={() => setOpen(false)} />
+        <div
+          className="fixed inset-0 z-40 bg-navy-950/70 backdrop-blur-xs lg:hidden"
+          onClick={() => setOpen(false)}
+        />
       )}
 
       <aside
         className={clsx(
-          'fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-border bg-white transition-transform lg:static lg:translate-x-0',
+          'fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-navy-800 bg-navy-900 text-slate-300 transition-transform duration-200 lg:static lg:translate-x-0',
           open ? 'translate-x-0' : '-translate-x-full'
         )}
       >
-        <div className="flex items-center justify-between px-5 py-5">
-          <div>
-            <p className="font-display text-lg font-semibold text-navy-700 leading-tight">Starehe SBMS</p>
-            <p className="text-xs text-ink-faint">Club Patron Portal</p>
+        {/* Sidebar Header */}
+        <div className="flex items-center justify-between px-6 py-6 border-b border-navy-800/80">
+          <div className="flex items-center gap-3">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-gold-400 to-gold-600 text-navy-950 shadow-md">
+              <LuShieldCheck className="h-5 w-5" />
+            </div>
+            <div>
+              <p className="font-display text-base font-bold text-white tracking-wide leading-tight">
+                Starehe SBMS
+              </p>
+              <p className="text-[11px] font-medium tracking-wider text-gold-400 uppercase">
+                Club Patron Portal
+              </p>
+            </div>
           </div>
-          <button onClick={() => setOpen(false)} aria-label="Close menu" className="rounded-lg p-1.5 hover:bg-surface-muted lg:hidden">
+          <button
+            onClick={() => setOpen(false)}
+            aria-label="Close menu"
+            className="rounded-lg p-1.5 text-slate-400 hover:bg-navy-800 hover:text-white lg:hidden"
+          >
             <LuX className="h-5 w-5" />
           </button>
         </div>
 
-        <nav className="flex-1 space-y-1 overflow-y-auto px-3">
+        {/* Navigation */}
+        <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4">
           {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
             const active = pathname === href;
             return (
@@ -81,24 +109,35 @@ export default function Sidebar() {
                 href={href}
                 onClick={() => setOpen(false)}
                 className={clsx(
-                  'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
-                  active ? 'bg-navy-50 text-navy-600' : 'text-ink-muted hover:bg-surface-muted hover:text-ink'
+                  'group relative flex items-center gap-3 rounded-lg px-3.5 py-2.5 text-xs font-semibold tracking-wide transition-all duration-150',
+                  active
+                    ? 'bg-navy-800/90 text-white shadow-sm'
+                    : 'text-slate-400 hover:bg-navy-800/50 hover:text-slate-200'
                 )}
               >
-                <Icon className="h-[18px] w-[18px]" />
+                {active && (
+                  <span className="absolute left-0 top-1.5 bottom-1.5 w-1 rounded-r-full bg-gold-400" />
+                )}
+                <Icon
+                  className={clsx(
+                    'h-[18px] w-[18px] transition-colors',
+                    active ? 'text-gold-400' : 'text-slate-400 group-hover:text-slate-200'
+                  )}
+                />
                 {label}
               </Link>
             );
           })}
         </nav>
 
-        <div className="border-t border-border p-3">
+        {/* User / Footer */}
+        <div className="border-t border-navy-800/80 p-3">
           <button
             onClick={handleLogout}
-            className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-status-rejected hover:bg-red-50"
+            className="flex w-full items-center gap-3 rounded-lg px-3.5 py-2.5 text-xs font-semibold text-rose-400 transition-colors hover:bg-rose-500/10 hover:text-rose-300"
           >
             <LuLogOut className="h-[18px] w-[18px]" />
-            Logout
+            Sign Out
           </button>
         </div>
       </aside>

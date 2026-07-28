@@ -5,6 +5,7 @@ import clsx from 'clsx';
 const VARIANTS = {
   primary: 'btn-primary',
   secondary: 'btn-secondary',
+  gold: 'btn-gold',
   danger: 'btn-danger',
 };
 

@@ -142,6 +142,32 @@ export async function POST(request) {
           message: `"${booking.function_name || 'Your function'}" was approved by ${approval.approver_role.toUpperCase()} and is now with the next approver.`,
         });
       }
+
+      // Notify the next approver(s)
+      const nextSequence = approval.sequence_order + 1;
+      const { data: nextApproval } = await admin
+        .from('approvals')
+        .select('approver_role')
+        .eq('booking_id', bookingId)
+        .eq('sequence_order', nextSequence)
+        .maybeSingle();
+
+      if (nextApproval) {
+        const { data: nextUsers } = await admin
+          .from('users')
+          .select('id')
+          .eq('role', nextApproval.approver_role);
+
+        if (nextUsers && nextUsers.length > 0) {
+          const notifications = nextUsers.map((u) => ({
+            user_id: u.id,
+            booking_id: bookingId,
+            type: 'pending_approval',
+            message: `A club function is now awaiting your approval after being approved by ${approval.approver_role.toUpperCase()}.`,
+          }));
+          await admin.from('notifications').insert(notifications);
+        }
+      }
     }
 
     return NextResponse.json({ status: 'approved' });

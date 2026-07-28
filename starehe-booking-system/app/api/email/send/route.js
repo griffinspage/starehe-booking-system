@@ -6,7 +6,6 @@
 import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { getTransport } from '@/emails/transport';
-import { functionApprovedTemplate } from '@/emails/functionApprovedTemplate.';
 
 export async function POST(request) {
   try {
