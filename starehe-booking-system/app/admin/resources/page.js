@@ -113,6 +113,10 @@ export default function ManageResourcesPage() {
             <option value="projector">Projector</option>
             <option value="bus">Bus</option>
             <option value="computer_lab">Computer Lab</option>
+            <option value="furniture">Furniture</option>
+            <option value="laptops">Laptops</option>
+            <option value="toughbooks">Toughbooks</option>
+            <option value="other">Other</option>
           </Select>
           <Input
             label="Identifier"
