@@ -10,6 +10,7 @@ export const dynamic = 'force-dynamic';
 
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/admin';
 
 const APPROVER_ROLES = ['sm1', 'sm2', 'sm3', 'sm4', 'welfare_head', 'admin'];
 
@@ -29,14 +30,16 @@ export async function GET(request) {
   const bookingId = request.nextUrl.searchParams.get('bookingId');
   if (!bookingId) return NextResponse.json({ error: 'bookingId is required' }, { status: 400 });
 
-  const { data: booking, error: bookingError } = await supabase
+  const adminSupabase = createAdminClient();
+
+  const { data: booking, error: bookingError } = await adminSupabase
     .from('bookings')
     .select('*')
     .eq('id', bookingId)
     .single();
   if (bookingError || !booking) return NextResponse.json({ error: 'Booking not found.' }, { status: 404 });
 
-  const { data: masterList } = await supabase
+  const { data: masterList } = await adminSupabase
     .from('master_lists')
     .select('*')
     .eq('booking_id', bookingId)
@@ -44,7 +47,7 @@ export async function GET(request) {
 
   let students = [];
   if (masterList) {
-    const { data } = await supabase
+    const { data } = await adminSupabase
       .from('master_list_students')
       .select('*')
       .eq('master_list_id', masterList.id)
@@ -52,7 +55,7 @@ export async function GET(request) {
     students = data || [];
   }
 
-  const { data: requisition } = await supabase
+  const { data: requisition } = await adminSupabase
     .from('requisitions')
     .select('*')
     .eq('booking_id', bookingId)

@@ -8,11 +8,12 @@ export const dynamic = 'force-dynamic';
 
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/admin';
 
 const APPROVER_ROLES = ['sm1', 'sm2', 'sm3', 'sm4', 'welfare_head', 'admin'];
 
 export async function PATCH(request) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -50,7 +51,8 @@ export async function PATCH(request) {
         flagged_at: null,
       };
 
-  const { data, error } = await supabase
+  const adminSupabase = createAdminClient();
+  const { data, error } = await adminSupabase
     .from('master_list_students')
     .update(updates)
     .eq('id', studentId)
