@@ -104,24 +104,71 @@ export default function ApprovedFunctionDocument({
               <Text key={h} style={styles.tableHeaderCell}>{h}</Text>
             ))}
           </View>
-          {(students || []).slice(0, 35).map((s, i) => (
-            <View key={s.id || i} style={styles.tableRow}>
-              <Text style={styles.tableCell}>{i + 1}</Text>
-              <Text style={styles.tableCell}>{s.admission_number}</Text>
-              <Text
-                style={[
-                  styles.tableCell,
-                  s.flag_type === 'academic' ? { textDecoration: 'line-through' } : {},
-                  s.flag_type === 'discipline' ? { textDecoration: 'line-through', fontWeight: 700 } : {},
-                ]}
-              >
-                {s.student_name}{s.flag_type ? (s.flag_type === 'academic' ? ' *' : ' **') : ''}
-              </Text>
-              <Text style={styles.tableCell}>{s.class}</Text>
-              <Text style={styles.tableCell}>{s.stream}</Text>
-              <Text style={styles.tableCell}>{s.attendance_status}</Text>
-            </View>
-          ))}
+          {(students || []).slice(0, 35).map((s, i) => {
+  const admissionNumber =
+    s.admission_number ?? s.admissionNumber ?? '';
+
+  const studentName =
+    s.student_name ?? s.studentName ?? '';
+
+  const studentClass =
+    s.class ?? '';
+
+  const stream =
+    s.stream ?? '';
+
+  const attendanceStatus =
+    s.attendance_status ?? s.attendanceStatus ?? 'expected';
+
+  const flagType =
+    s.flag_type ?? s.flagType ?? '';
+
+  return (
+    <View key={s.id || i} style={styles.tableRow}>
+      <Text style={styles.tableCell}>
+        {i + 1}
+      </Text>
+
+      <Text style={styles.tableCell}>
+        {String(admissionNumber)}
+      </Text>
+
+      <Text
+        style={[
+          styles.tableCell,
+          flagType === 'academic'
+            ? { textDecoration: 'line-through' }
+            : {},
+          flagType === 'discipline'
+            ? {
+                textDecoration: 'line-through',
+                fontWeight: 700,
+              }
+            : {},
+        ]}
+      >
+        {String(studentName)}
+        {flagType
+          ? flagType === 'academic'
+            ? ' *'
+            : ' **'
+          : ''}
+      </Text>
+
+      <Text style={styles.tableCell}>
+        {String(studentClass)}
+      </Text>
+
+      <Text style={styles.tableCell}>
+        {String(stream)}
+      </Text>
+
+      <Text style={styles.tableCell}>
+        {String(attendanceStatus)}
+      </Text>
+    </View>
+  );
+})}
         </View>
         <Text style={{ fontSize: 7, color: '#8b93a0', marginTop: 4 }}>
           * Flagged — low academic performance &nbsp;&nbsp; ** Flagged — indiscipline. Flagged students are not permitted to attend.
