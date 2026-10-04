@@ -106,12 +106,14 @@ function MasterListContent() {
       setMasterListId(listId);
 
       const rows = gridRef.current?.getRows() || [];
-      const rowsRes = await fetch('/api/master-list/students', {
+console.log('Master list rows being submitted:', rows);
+const rowsRes = await fetch('/api/master-list/students', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ masterListId: listId, rows }),
       });
       const rowsData = await rowsRes.json();
+      console.log('Master list student save response:', rowsData);
       if (!rowsRes.ok) {
         toast.error(rowsData.error || 'Could not save student rows.');
         return false;
@@ -128,9 +130,14 @@ function MasterListContent() {
   }
 
   async function handleSaveDraft() {
-    const ok = await saveAll({ submit: false });
-    if (ok) toast.success('Draft saved.');
-  }
+  console.log('===== SAVE DRAFT BUTTON CLICKED =====');
+
+  const ok = await saveAll({ submit: false });
+
+  console.log('===== SAVE ALL FINISHED =====', ok);
+
+  if (ok) toast.success('Draft saved.');
+}
 
   async function handleContinue() {
     if (!header.functionName || !header.clubName || !header.functionDate) {
