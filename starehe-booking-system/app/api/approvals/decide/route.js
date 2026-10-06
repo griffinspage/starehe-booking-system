@@ -74,15 +74,18 @@ export async function POST(request) {
     // --------------------------------------------------
     // 2. Prevent duplicate decisions
     // --------------------------------------------------
-    if (approval.decision) {
-      return NextResponse.json(
-        {
-          error:
-            `This approval has already been ${approval.decision}.`,
-        },
-        { status: 409 }
-      );
-    }
+    if (
+  approval.decision &&
+  approval.decision !== 'pending'
+) {
+  return NextResponse.json(
+    {
+      error:
+        `This approval has already been ${approval.decision}.`,
+    },
+    { status: 409 }
+  );
+}
 
     let signatureId = null;
 
