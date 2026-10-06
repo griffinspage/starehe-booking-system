@@ -272,20 +272,21 @@ export async function POST(request) {
       let pdfResponse;
 
       try {
-        pdfResponse = await fetch(
-          `${origin}/api/pdf/generate`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              bookingId,
-              sendEmail: true,
-            }),
-            cache: 'no-store',
-          }
-        );
+      pdfResponse = await fetch(
+  `${origin}/api/pdf/generate`,
+  {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Cookie: request.headers.get('cookie') || '',
+    },
+    body: JSON.stringify({
+      bookingId,
+      sendEmail: true,
+    }),
+    cache: 'no-store',
+  }
+);
       } catch (pdfRequestError) {
         console.error(
           'PDF generation request failed:',
